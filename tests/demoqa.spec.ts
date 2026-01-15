@@ -3,19 +3,19 @@ import { Ensure, equals, isTrue } from '@serenity-js/assertions';
 
 import { createActor } from './support/actor';
 
-// Navigation
 import { NavigateToHome } from '../tasks/navigation/NavigateToHome';
 import { OpenSection } from '../tasks/navigation/OpenSection';
 import { OpenSideMenuOption } from '../tasks/navigation/OpenSideMenuOption';
 
-// Case 2 – Elements
 import { FillTextBoxForm } from '../tasks/elements/FillTextBoxForm';
 import { TextBoxResult } from '../questions/TextBoxResult';
 
-// Case 3 – Forms
 import { CompletePracticeForm } from '../tasks/forms/CompletePracticeForm';
 import { FormSubmissionConfirmed } from '../questions/FormSubmissionConfirmed';
 
+import { ToggleAccordion } from '../tasks/widgets/ToggleAccordion';
+import { WidgetsPage } from '../ui/WidgetsPage';
+import { isVisible } from '@serenity-js/web';
 /**
  * Case 1
  * Navigate to DemoQA home page
@@ -26,6 +26,7 @@ test('Case 1 - Navigate to DemoQA home page', async ({ browser }) => {
   await user.attemptsTo(
     NavigateToHome.page(),
   );
+  
 });
 
 /**
@@ -114,6 +115,40 @@ test('Case 4 - Alerts section (visual demo)', async ({ browser }) => {
   await page.waitForTimeout(1000);
 
   await context.close();
+});
+
+/**
+ * Case 5
+ * Widgets – Accordion expands and collapses
+ */
+test('Case 5 - Widgets Accordion expands and collapses', async ({ browser }) => {
+  const user = createActor(browser);
+
+  await user.attemptsTo(
+    NavigateToHome.page(),
+    OpenSection.called('Widgets'),
+    OpenSideMenuOption.called('Accordian'),
+
+    // Section 1 is expanded by default
+    Ensure.that(
+      WidgetsPage.sectionOneContent.isVisible(),
+      isTrue(),
+    ),
+
+    // Open Section 2
+    ToggleAccordion.openSectionTwo(),
+    Ensure.that(
+      WidgetsPage.sectionTwoContent.isVisible(),
+      isTrue(),
+    ),
+
+    // Open Section 3
+    ToggleAccordion.openSectionThree(),
+    Ensure.that(
+      WidgetsPage.sectionThreeContent.isVisible(),
+      isTrue(),
+    ),
+  );
 });
 
 
