@@ -1,20 +1,20 @@
 import { test } from '@playwright/test';
 import { Ensure, equals, isTrue } from '@serenity-js/assertions';
-import { WaitFor } from './interactions/WaitFor';
+
 import { createActor } from './support/actor';
 
-// Navigation tasks
+// Navigation
 import { NavigateToHome } from '../tasks/navigation/NavigateToHome';
 import { OpenSection } from '../tasks/navigation/OpenSection';
+import { OpenSideMenuOption } from '../tasks/navigation/OpenSideMenuOption';
 
-// Elements
+// Case 2 – Elements
 import { FillTextBoxForm } from '../tasks/elements/FillTextBoxForm';
 import { TextBoxResult } from '../questions/TextBoxResult';
 
-// Forms
+// Case 3 – Forms
 import { CompletePracticeForm } from '../tasks/forms/CompletePracticeForm';
 import { FormSubmissionConfirmed } from '../questions/FormSubmissionConfirmed';
-
 
 /**
  * Case 1
@@ -30,7 +30,7 @@ test('Case 1 - Navigate to DemoQA home page', async ({ browser }) => {
 
 /**
  * Case 2
- * Elements - Text Box form submission
+ * Elements – Text Box form submission
  */
 test('Case 2 - Elements Text Box form', async ({ browser }) => {
   const user = createActor(browser);
@@ -38,13 +38,23 @@ test('Case 2 - Elements Text Box form', async ({ browser }) => {
   await user.attemptsTo(
     NavigateToHome.page(),
     OpenSection.called('Elements'),
+
     FillTextBoxForm.with('John Doe', 'john.doe@test.com'),
+
+    Ensure.that(
+      TextBoxResult.name(),
+      equals('Name:John Doe'),
+    ),
+    Ensure.that(
+      TextBoxResult.email(),
+      equals('Email:john.doe@test.com'),
+    ),
   );
 });
 
 /**
  * Case 3
- * Forms - Practice Form submission
+ * Forms – Practice Form submission
  */
 test('Case 3 - Forms Practice Form submission', async ({ browser }) => {
   const user = createActor(browser);
@@ -52,6 +62,7 @@ test('Case 3 - Forms Practice Form submission', async ({ browser }) => {
   await user.attemptsTo(
     NavigateToHome.page(),
     OpenSection.called('Forms'),
+
     CompletePracticeForm.withMandatoryFields(
       'John',
       'Doe',
@@ -63,10 +74,49 @@ test('Case 3 - Forms Practice Form submission', async ({ browser }) => {
       FormSubmissionConfirmed.modalIsVisible(),
       isTrue(),
     ),
-    // 👇 Delay visual para revisión humana
-    WaitFor.milliseconds(3000),
   );
 });
+
+test('Case 4 - Alerts section (visual demo)', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  // 👁️ Visual dialog handler
+  page.on('dialog', async dialog => {
+    console.log(`Dialog shown: ${dialog.message()}`);
+    await new Promise(res => setTimeout(res, 3000)); // 👁️ ver alerta
+    await dialog.dismiss(); // o accept()
+  });
+
+  // Navegación directa (demo visual)
+  await page.goto('https://demoqa.com');
+
+  // Card principal
+  await page.locator('h5:has-text("Alerts, Frame & Windows")').click();
+
+  // Side menu (Alerts)
+  await page.locator('span.text:has-text("Alerts")').click();
+
+  // 🔔 Simple Alert
+  await page.locator('#alertButton').click();
+  await page.waitForTimeout(1000);
+
+  // 🔔 Delayed Alert
+  await page.locator('#timerAlertButton').click();
+  await page.waitForTimeout(6000);
+
+  // 🔔 Confirm Alert
+  await page.locator('#confirmButton').click();
+  await page.waitForTimeout(1000);
+
+  // 🔔 Prompt Alert
+  await page.locator('#promtButton').click();
+  await page.waitForTimeout(1000);
+
+  await context.close();
+});
+
+
 
 /**
  * Cleanup
