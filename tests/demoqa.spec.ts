@@ -150,6 +150,35 @@ test('Case 6 - Interactions Drag and Drop works correctly', async ({ page }) => 
   await expect(target).toHaveText('Dropped!');
 });
 
+/**
+ * Case 7
+ * Book Store Application – Book search
+ */
+test('Case 7 - Book Store search filters results correctly', async ({ page }) => {
+
+  await page.goto('https://demoqa.com');
+
+  // Home card
+  await page.locator('h5:has-text("Book Store Application")').click();
+
+  // Search input
+  const searchInput = page.locator('#searchBox');
+  await searchInput.fill('Git');
+
+  // Small visual delay
+  await page.waitForTimeout(1500);
+
+  // Get visible book titles
+  const titles = page.locator('.rt-tbody .action-buttons span');
+
+  const count = await titles.count();
+  expect(count).toBeGreaterThan(0);
+
+  for (let i = 0; i < count; i++) {
+    const text = await titles.nth(i).innerText();
+    expect(text.toLowerCase()).toContain('git');
+  }
+});
 
 /**
  * Cleanup
