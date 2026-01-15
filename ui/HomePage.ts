@@ -1,31 +1,49 @@
 import { By, PageElement, PageElements } from '@serenity-js/web';
 
 export class HomePage {
+
+  /**
+   * All main menu cards displayed on the home page
+   */
   static mainMenuCards = PageElements.located(
     By.css('.card.mt-4.top-card'),
   ).describedAs('main menu cards');
 
-  static elementsCard = PageElement.located(
-    By.xpath('Elements'),
-  ).describedAs('Elements card');
+  /**
+   * Card identified by its visible title (h5 text)
+   * Examples:
+   *  - Elements
+   *  - Forms
+   *  - Alerts, Frame & Windows
+   *  - Widgets
+   *  - Interactions
+   *  - Book Store Application
+   */
+  static cardCalled = (name: string) =>
+    PageElement.located(
+      By.xpath(
+        `//h5[normalize-space()='${name}']/ancestor::div[contains(@class,'top-card')]`
+      ),
+    ).describedAs(`${name} main menu card`);
 
-  static formsCard = PageElement.located(
-    By.xpath('Forms'),
-  ).describedAs('Forms card');
+  /**
+   * Specific cards (semantic aliases)
+   * These are OPTIONAL but improve readability in tests/tasks
+   */
 
-  static alertsCard = PageElement.located(
-    By.xpath("//*[contains(text(), 'Alerts, Frame & Windows')]"),
-  ).describedAs('Alerts, Frame & Windows card');
+  static elementsCard = HomePage.cardCalled('Elements');
 
-  static widgetsCard = PageElement.located(
-    By.xpath('Widgets'),
-  ).describedAs('Widgets card');
+  static formsCard = HomePage.cardCalled('Forms');
 
-  static interactionsCard = PageElement.located(
-    By.xpath('Interactions'),
-  ).describedAs('Interactions card');
+  static alertsFrameWindowsCard = HomePage.cardCalled(
+    'Alerts, Frame & Windows',
+  );
 
-  static bookStoreCard = PageElement.located(
-    By.xpath('Book Store Application'),
-  ).describedAs('Book Store Application card');
+  static widgetsCard = HomePage.cardCalled('Widgets');
+
+  static interactionsCard = HomePage.cardCalled('Interactions');
+
+  static bookStoreApplicationCard = HomePage.cardCalled(
+    'Book Store Application',
+  );
 }

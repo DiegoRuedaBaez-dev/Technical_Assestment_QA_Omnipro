@@ -9,10 +9,10 @@ export class MainMenuVisible {
       actor.attemptsTo(
         Ensure.that(HomePage.elementsCard, isVisible()),
         Ensure.that(HomePage.formsCard, isVisible()),
-        Ensure.that(HomePage.alertsCard, isVisible()),
+        Ensure.that(HomePage.alertsFrameWindowsCard, isVisible()),
         Ensure.that(HomePage.widgetsCard, isVisible()),
         Ensure.that(HomePage.interactionsCard, isVisible()),
-        Ensure.that(HomePage.bookStoreCard, isVisible()),
+        Ensure.that(HomePage.bookStoreApplicationCard, isVisible()),
       ),
     );
 }

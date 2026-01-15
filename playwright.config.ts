@@ -1,0 +1,20 @@
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+
+  workers: 1,          // ⬅ evita paralelismo (importante para demo)
+  fullyParallel: false,
+
+  use: {
+    headless: false,
+
+    launchOptions: {
+      slowMo: process.env.SLOWMO ? Number(process.env.SLOWMO) : 1000,
+    },
+
+    viewport: { width: 1280, height: 900 },
+    screenshot: 'only-on-failure',
+    video: 'off',
+  },
+});

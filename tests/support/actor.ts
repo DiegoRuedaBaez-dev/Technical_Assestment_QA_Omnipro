@@ -1,9 +1,9 @@
 import { actorCalled } from '@serenity-js/core';
-import { Page } from '@playwright/test';
 import { BrowseTheWebWithPlaywright } from '@serenity-js/playwright';
+import { Browser } from '@playwright/test';
 
-export function createActor(page: Page) {
+export function createActor(browser: Browser) {
   return actorCalled('QA User').whoCan(
-    BrowseTheWebWithPlaywright.using(page),
+    BrowseTheWebWithPlaywright.using(browser),
   );
 }
