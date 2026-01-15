@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.8"
+  },
+  "dependencies": {
+    "@serenity-js/core": "^3.37.1",
+    "@serenity-js/playwright": "^3.37.1"
+  }
+}
