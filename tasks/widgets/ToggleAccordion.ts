@@ -4,15 +4,24 @@ import { WidgetsPage } from '../../ui/WidgetsPage';
 
 export class ToggleAccordion {
 
-  static openSectionTwo = () =>
-    Task.where(
+  static openSectionOne() {
+    return Task.where(
+      '#actor opens accordion section one',
+      Click.on(WidgetsPage.sectionOneHeader),
+    );
+  }
+
+  static openSectionTwo() {
+    return Task.where(
       '#actor opens accordion section two',
       Click.on(WidgetsPage.sectionTwoHeader),
     );
+  }
 
-  static openSectionThree = () =>
-    Task.where(
+  static openSectionThree() {
+    return Task.where(
       '#actor opens accordion section three',
       Click.on(WidgetsPage.sectionThreeHeader),
     );
+  }
 }

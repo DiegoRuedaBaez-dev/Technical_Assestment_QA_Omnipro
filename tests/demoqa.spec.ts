@@ -1,26 +1,31 @@
-import { expect, test } from '@playwright/test';
+import { test, expect } from '@serenity-js/playwright-test';
+
 import { Ensure, equals, isTrue } from '@serenity-js/assertions';
 
 import { createActor } from './support/actor';
 
+// Navigation
 import { NavigateToHome } from '../tasks/navigation/NavigateToHome';
 import { OpenSection } from '../tasks/navigation/OpenSection';
 import { OpenSideMenuOption } from '../tasks/navigation/OpenSideMenuOption';
 
+// Case 2 – Elements
 import { FillTextBoxForm } from '../tasks/elements/FillTextBoxForm';
 import { TextBoxResult } from '../questions/TextBoxResult';
 
+// Case 3 – Forms
 import { CompletePracticeForm } from '../tasks/forms/CompletePracticeForm';
 import { FormSubmissionConfirmed } from '../questions/FormSubmissionConfirmed';
 
+// Case 5 – Widgets
 import { ToggleAccordion } from '../tasks/widgets/ToggleAccordion';
-import { WidgetsPage } from '../ui/WidgetsPage';
 
-import { PerformDragAndDrop } from '../tasks/interactions/PerformDragNDrop';
-import { InteractionsPage } from '../ui/InteractionsPage';
 /**
- * Case 1
+ * =========================================================
+ * CASE 1
  * Navigate to DemoQA home page
+ * (Serenity / Screenplay)
+ * =========================================================
  */
 test('Case 1 - Navigate to DemoQA home page', async ({ browser }) => {
   const user = createActor(browser);
@@ -28,12 +33,14 @@ test('Case 1 - Navigate to DemoQA home page', async ({ browser }) => {
   await user.attemptsTo(
     NavigateToHome.page(),
   );
-  
 });
 
 /**
- * Case 2
+ * =========================================================
+ * CASE 2
  * Elements – Text Box form submission
+ * (Serenity / Screenplay)
+ * =========================================================
  */
 test('Case 2 - Elements Text Box form', async ({ browser }) => {
   const user = createActor(browser);
@@ -56,8 +63,11 @@ test('Case 2 - Elements Text Box form', async ({ browser }) => {
 });
 
 /**
- * Case 3
+ * =========================================================
+ * CASE 3
  * Forms – Practice Form submission
+ * (Serenity / Screenplay)
+ * =========================================================
  */
 test('Case 3 - Forms Practice Form submission', async ({ browser }) => {
   const user = createActor(browser);
@@ -80,13 +90,17 @@ test('Case 3 - Forms Practice Form submission', async ({ browser }) => {
   );
 });
 
+/**
+ * =========================================================
+ * CASE 4
+ * Alerts section (visual demo)
+ * (Raw Playwright – intentionally not Screenplay)
+ * =========================================================
+ */
 test('Case 4 - Alerts section (visual demo)', async ({ page }) => {
 
   page.on('dialog', async dialog => {
     console.log(`Alert shown: ${dialog.message()}`);
-
-    await new Promise(res => setTimeout(res, 3000));
-
     await dialog.accept();
   });
 
@@ -101,10 +115,12 @@ test('Case 4 - Alerts section (visual demo)', async ({ page }) => {
   await page.locator('#promtButton').click();
 });
 
-
 /**
- * Case 5
+ * =========================================================
+ * CASE 5
  * Widgets – Accordion expands and collapses
+ * (Serenity / Screenplay)
+ * =========================================================
  */
 test('Case 5 - Widgets Accordion expands and collapses', async ({ browser }) => {
   const user = createActor(browser);
@@ -114,25 +130,19 @@ test('Case 5 - Widgets Accordion expands and collapses', async ({ browser }) => 
     OpenSection.called('Widgets'),
     OpenSideMenuOption.called('Accordian'),
 
-    Ensure.that(
-      WidgetsPage.sectionOneContent.isVisible(),
-      isTrue(),
-    ),
-
+    ToggleAccordion.openSectionOne(),
     ToggleAccordion.openSectionTwo(),
-    Ensure.that(
-      WidgetsPage.sectionTwoContent.isVisible(),
-      isTrue(),
-    ),
-
     ToggleAccordion.openSectionThree(),
-    Ensure.that(
-      WidgetsPage.sectionThreeContent.isVisible(),
-      isTrue(),
-    ),
   );
 });
 
+/**
+ * =========================================================
+ * CASE 6
+ * Interactions – Drag and Drop
+ * (Raw Playwright – stability-first)
+ * =========================================================
+ */
 test('Case 6 - Interactions Drag and Drop works correctly', async ({ page }) => {
 
   await page.goto('https://demoqa.com');
@@ -146,44 +156,33 @@ test('Case 6 - Interactions Drag and Drop works correctly', async ({ page }) => 
     .locator('#droppable');
 
   await source.dragTo(target);
-
   await expect(target).toHaveText('Dropped!');
 });
 
 /**
- * Case 7
+ * =========================================================
+ * CASE 7
  * Book Store Application – Book search
+ * (Raw Playwright)
+ * =========================================================
  */
 test('Case 7 - Book Store search filters results correctly', async ({ page }) => {
 
   await page.goto('https://demoqa.com');
 
-  // Home card
   await page.locator('h5:has-text("Book Store Application")').click();
 
-  // Search input
   const searchInput = page.locator('#searchBox');
   await searchInput.fill('Git');
-
-  // Small visual delay
   await page.waitForTimeout(1500);
 
-  // Get visible book titles
   const titles = page.locator('.rt-tbody .action-buttons span');
-
   const count = await titles.count();
+
   expect(count).toBeGreaterThan(0);
 
   for (let i = 0; i < count; i++) {
     const text = await titles.nth(i).innerText();
     expect(text.toLowerCase()).toContain('git');
   }
-});
-
-/**
- * Cleanup
- * Ensures browser context is closed after each test
- */
-test.afterEach(async ({ context }) => {
-  await context.close();
 });

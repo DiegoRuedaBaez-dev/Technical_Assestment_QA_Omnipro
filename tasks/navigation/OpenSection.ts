@@ -1,12 +1,16 @@
 import { Task } from '@serenity-js/core';
-import { Click } from '@serenity-js/web';
-import { HomePage } from '../../ui/HomePage';
+import { Click, By, PageElement } from '@serenity-js/web';
 
 export class OpenSection {
 
-  static called = (name: 'Elements' | 'Forms' | 'Alerts, Frame & Windows' | 'Widgets' | 'Interactions' | 'Book Store Application') =>
-    Task.where(
-      `#actor opens the ${name} home section`,
-      Click.on(HomePage.cardCalled(name)),
+  static called(name: string) {
+    return Task.where(
+      `#actor opens ${ name } section`,
+      Click.on(
+        PageElement.located(
+          By.xpath(`//h5[normalize-space(.)='${ name }']`)
+        )
+      ),
     );
+  }
 }
