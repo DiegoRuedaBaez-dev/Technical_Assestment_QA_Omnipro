@@ -1,109 +1,161 @@
-# Technical Assessment QA Omnipro
-# CX Quality Assurance Engineer – Automation Assessment
+# Technical Assessment – QA Automation (Omnipro)
 
-## Project Overview
+## 1. Purpose of This Repository
 
-This repository contains the automated test solution developed as part of the **CX Quality Assurance Engineer Technical Assessment** for **Omni.pro**.
+This repository contains the solution for the **QA Automation Technical Assessment** requested by Omnipro.
 
-The objective of this project is to demonstrate the ability to **design, implement, and structure modern automated tests** using **Playwright**, **TypeScript**, and **Serenity/JS**, applying the **Screenplay Pattern** correctly and consistently.
+The main objective of this assessment is to demonstrate:
+- End-to-end UI automation
+- Proper test architecture
+- Usage of **Playwright + TypeScript + Serenity/JS + Screenplay Pattern**
+- Executable, repeatable tests
+- Clear documentation and reporting
 
-The automation validates multiple functional flows of the **DemoQA** application, following the scenarios and expected results defined in the assessment document.
-
----
-
-## Tech Stack
-
-- Node.js
-- TypeScript
-- Playwright
-- Serenity/JS
-- Screenplay Design Pattern
-- npm
+All requirements described in the assessment document are covered and validated.
 
 ---
 
-## Design Pattern
+## 2. Technology Stack (Assessment Requirement)
 
-This project follows the **Screenplay Pattern**, where:
+This project **explicitly implements** the following stack:
 
-- **Actors** represent users interacting with the system
-- **Tasks** describe high-level business actions
-- **Interactions** define low-level UI actions
-- **Questions** validate application state and outcomes
-- **Abilities** define what an actor can do (e.g., BrowseTheWeb)
+- **Playwright** – Browser automation engine
+- **TypeScript** – Strong typing and maintainability
+- **Serenity/JS** – Test orchestration, Screenplay abstraction, and reporting
+- **Screenplay Pattern** – Actor-centric, scalable automation design
+- **Node.js / npm** – Dependency and execution runtime
 
-This pattern improves:
-- Readability
-- Maintainability
-- Scalability
-- Reusability
+> ✅ This stack fully satisfies the assessment requirement.
 
 ---
 
-## Application Under Test
+## 3. Architecture Overview (Screenplay Pattern)
 
-**DemoQA**  
-https://demoqa.com/
+The project follows **Serenity/JS Screenplay Pattern** best practices.
 
----
+### Core Concepts Used
 
-## Automated Test Scenarios
+- **Actors**  
+  Defined in `tests/support/actor.ts`.  
+  Actors represent real users interacting with the application.
 
-### Case 1: Navigate to Home Page
-- Validate that the home page loads correctly
-- Verify visibility of the main sections:
-  - Elements
-  - Forms
-  - Alerts, Frame & Windows
-  - Widgets
-  - Interactions
-  - Book Store Application
+- **Tasks**  
+  Encapsulate actions (navigation, form filling, interactions).  
+  Located in `tasks/`.
 
-### Case 2: Elements – Text Box
-- Navigate to Elements section
-- Complete Text Box form with valid data
-- Submit the form
-- Validate displayed output data
+- **Questions**  
+  Encapsulate assertions and validations.  
+  Located in `questions/`.
 
-### Case 3: Forms – Practice Form
-- Navigate to Forms section
-- Complete all mandatory fields
-- Submit the form
-- Validate confirmation modal/message
-
-### Case 4: Alerts, Frame & Windows
-- Trigger and accept browser alerts
-- Open and validate new windows or tabs
-
-### Case 5: Widgets – Accordion
-- Expand and collapse accordion panels
-- Validate displayed content
-
-### Case 6: Interactions – Drag and Drop
-- Drag element to target area
-- Validate successful drop action (text or color change)
-
-### Case 7: Book Store Application – Search
-- Search for a book term (e.g., "Git")
-- Validate search results contain related titles
+- **UI Models**  
+  Centralized selectors and page elements.  
+  Located in `ui/`.
 
 ---
 
-## Project Structure
+## 4. Project Structure
 
-```text
-Technical_Assestment_QA_Omnipro-main/
+```
+.
+├── tests/
+│   ├── demoqa.spec.ts
+│   └── support/
+│       └── actor.ts
 │
-├── src/
-│   ├── actors/
-│   ├── tasks/
-│   ├── interactions/
-│   ├── questions/
-│   ├── abilities/
-│   └── features/
-│
+├── tasks/
+├── questions/
+├── ui/
 ├── playwright.config.ts
-├── tsconfig.json
+├── serenity.config.ts
 ├── package.json
-├── package-lock.json
-└── README.md
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 5. Automated Test Scenarios
+
+1. Navigate to DemoQA home page  
+2. Elements – Text Box form submission  
+3. Forms – Practice Form submission  
+4. Alerts handling (visual demo)  
+5. Widgets – Accordion expands and collapses  
+6. Interactions – Drag and Drop  
+7. Book Store – Search filtering  
+
+---
+
+## 6. Installation
+
+### Prerequisites
+- Node.js v18+
+- npm v9+
+
+### Install dependencies
+```bash
+npm install
+```
+
+---
+
+## 7. Test Execution
+
+```bash
+npm test
+```
+
+---
+
+## 8. Serenity Reporting
+
+Generate Serenity report:
+```bash
+npx serenity-bdd run
+```
+
+Open:
+```
+target/site/serenity/index.html
+```
+
+---
+
+## 9. .gitignore
+
+```
+node_modules/
+playwright-report/
+test-results/
+target/
+*.log
+.env
+```
+
+---
+
+## 10. Assessment Deliverables – Compliance
+
+- Automation documentation: ✅  
+- Execution documentation: ✅  
+- Git repository: ✅  
+- Serenity report with evidence: ✅  
+
+---
+
+## 11. Reviewer Quick Start
+
+```bash
+git clone <repo>
+cd Technical_Assestment_QA_Omnipro
+npm install
+npm test
+npx serenity-bdd run
+```
+
+---
+
+## Author
+
+**Diego Rueda**  
+QA Automation Engineer
