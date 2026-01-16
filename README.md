@@ -1,57 +1,109 @@
 # Technical Assessment QA Omnipro
-**CX Quality Assurance Engineer**
+# CX Quality Assurance Engineer – Automation Assessment
 
-## Overview
+## Project Overview
 
-This project contains an automated test suite developed as part of a technical assessment for a **CX Quality Assurance Engineer** role.  
-The objective of the solution is to design and implement a **modern, maintainable, and scalable UI automation framework** that validates key functional flows of the **DemoQA** web application.
+This repository contains the automated test solution developed as part of the **CX Quality Assurance Engineer Technical Assessment** for **Omni.pro**.
 
-The automation is built using **Playwright**, **TypeScript**, and **Serenity/JS**, applying the **Screenplay Pattern** to model user behavior in a clear, reusable, and expressive manner.
+The objective of this project is to demonstrate the ability to **design, implement, and structure modern automated tests** using **Playwright**, **TypeScript**, and **Serenity/JS**, applying the **Screenplay Pattern** correctly and consistently.
 
-## Technology Stack
+The automation validates multiple functional flows of the **DemoQA** application, following the scenarios and expected results defined in the assessment document.
 
-- **Playwright** – Browser automation and execution engine  
-- **TypeScript** – Strongly typed language for safer and more maintainable code  
-- **Serenity/JS** – Test orchestration framework and Screenplay Pattern implementation  
-- **Node.js / npm** – Dependency management and execution  
+---
 
-## Serenity/JS and Screenplay Pattern
+## Tech Stack
 
-This project uses **Serenity/JS** as the core framework to implement the **Screenplay Pattern**, which focuses on *what the user does* rather than *how the automation is implemented*.
+- Node.js
+- TypeScript
+- Playwright
+- Serenity/JS
+- Screenplay Design Pattern
+- npm
 
-### Key Screenplay Concepts Applied
+---
 
-- **Actors**  
-  Represent users interacting with the system.
+## Design Pattern
 
-- **Abilities**  
-  Define what an actor can do (e.g. `BrowseTheWeb` using Playwright).
+This project follows the **Screenplay Pattern**, where:
 
-- **Tasks**  
-  High-level business actions that an actor performs (e.g. completing a form, searching for a book).
+- **Actors** represent users interacting with the system
+- **Tasks** describe high-level business actions
+- **Interactions** define low-level UI actions
+- **Questions** validate application state and outcomes
+- **Abilities** define what an actor can do (e.g., BrowseTheWeb)
 
-- **Interactions**  
-  Low-level, reusable UI actions (clicking, entering text, dragging elements).
+This pattern improves:
+- Readability
+- Maintainability
+- Scalability
+- Reusability
 
-- **Questions**  
-  Assertions that query the state of the application and validate outcomes.
+---
 
-- **UI Maps**  
-  Centralized definitions of page elements and locators, without embedded logic.
+## Application Under Test
 
-This approach ensures:
-- Clear separation of concerns
-- High readability of test scenarios
-- Reusability of actions and validations
-- Easier maintenance as the application grows
+**DemoQA**  
+https://demoqa.com/
+
+---
+
+## Automated Test Scenarios
+
+### Case 1: Navigate to Home Page
+- Validate that the home page loads correctly
+- Verify visibility of the main sections:
+  - Elements
+  - Forms
+  - Alerts, Frame & Windows
+  - Widgets
+  - Interactions
+  - Book Store Application
+
+### Case 2: Elements – Text Box
+- Navigate to Elements section
+- Complete Text Box form with valid data
+- Submit the form
+- Validate displayed output data
+
+### Case 3: Forms – Practice Form
+- Navigate to Forms section
+- Complete all mandatory fields
+- Submit the form
+- Validate confirmation modal/message
+
+### Case 4: Alerts, Frame & Windows
+- Trigger and accept browser alerts
+- Open and validate new windows or tabs
+
+### Case 5: Widgets – Accordion
+- Expand and collapse accordion panels
+- Validate displayed content
+
+### Case 6: Interactions – Drag and Drop
+- Drag element to target area
+- Validate successful drop action (text or color change)
+
+### Case 7: Book Store Application – Search
+- Search for a book term (e.g., "Git")
+- Validate search results contain related titles
+
+---
 
 ## Project Structure
 
 ```text
-src
-├── abilities        # Actor abilities (e.g. BrowseTheWeb)
-├── ui               # Page elements and locators (UI Maps)
-├── tasks            # Business actions grouped by feature
-├── interactions     # Atomic and reusable UI interactions
-├── questions        # Assertions and state validations
-└── tests            # Test scenarios (spec files)
+Technical_Assestment_QA_Omnipro-main/
+│
+├── src/
+│   ├── actors/
+│   ├── tasks/
+│   ├── interactions/
+│   ├── questions/
+│   ├── abilities/
+│   └── features/
+│
+├── playwright.config.ts
+├── tsconfig.json
+├── package.json
+├── package-lock.json
+└── README.md
