@@ -2,16 +2,11 @@ import { By, PageElement } from '@serenity-js/web';
 
 export class ElementsPage {
 
-  /**
-   * Left menu options
-   */
   static textBoxOption = PageElement.located(
     By.xpath("//span[normalize-space()='Text Box']"),
   ).describedAs('Text Box menu option');
 
-  /**
-   * Text Box form fields
-   */
+
   static fullNameInput = PageElement.located(
     By.id('userName'),
   ).describedAs('Full Name input');
@@ -24,9 +19,6 @@ export class ElementsPage {
     By.id('submit'),
   ).describedAs('Submit button');
 
-  /**
-   * Output section
-   */
   static nameOutput = PageElement.located(
     By.id('name'),
   ).describedAs('Name output');
